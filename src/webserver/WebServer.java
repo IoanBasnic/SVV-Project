@@ -1,9 +1,11 @@
 package webserver;
 
+
 import javax.xml.ws.spi.http.HttpExchange;
 import java.net.*;
 import java.io.*;
 import java.nio.file.Files;
+
 
 public class WebServer extends Thread {
 	protected Socket clientSocket;
@@ -45,6 +47,7 @@ public class WebServer extends Thread {
 		System.out.println("New Communication Thread Started");
 
 		try {
+
 //			PrintWriter out = new PrintWriter(clientSocket.getOutputStream(),
 //					true);
 //			BufferedReader in = new BufferedReader(new InputStreamReader(
