@@ -6,6 +6,7 @@ import java.io.PrintStream;
 
 public class ObjectFile {
 
+
     public static void fileFoundHeader(PrintStream os, int filelength, File file)
     {
         String contentType = CheckFile(file.toString());

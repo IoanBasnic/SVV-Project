@@ -52,6 +52,7 @@ public class PathController {
         if (path.equals("")) return "..\\svv-project\\src\\html\\maintenance\\index.html";
         if (path.charAt(path.length()-1) == '/') path += "..\\svv-project\\src\\html\\maintenance\\index.html";
         else return "..\\svv-project\\src\\html\\maintenance\\index.html";
-        return path;
+        if (path.equals("")) return "C:\\Users\\Iani\\Desktop\\svv-project\\src\\html\\index.html";
+        if (path.charAt(path.length()-1) == '/') path += "C:\\Users\\Iani\\Desktop\\svv-project\\src\\html\\index.html";
     }
 }
