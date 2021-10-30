@@ -6,19 +6,28 @@ import webserver.utils.ObjectFile;
 
 import java.net.*;
 import java.io.*;
+import java.util.Scanner;
 
 public class WebServer extends Thread {
 	protected Socket clientSocket;
+	private static WebServer server = null;
 	private ErrorController errorController = new ErrorController();
 	private PathController pathController = new PathController();
 	private ObjectFile objectFile = new ObjectFile();
 
+	public static String SERVER_STATUS = "STOP_SERVER";
 	public static void main(String[] args) throws IOException {
 		ServerSocket serverSocket = null;
 
+		Thread startServer=new Thread() {
+			public void run() {
+				InitializeServer();
+			}
+		};
+		startServer.start();
+
 		try {
 			serverSocket = new ServerSocket(10008);
-			System.out.println("Connection Socket Created");
 			try {
 				while (true) {
 					System.out.println("Waiting for Connection");
@@ -43,7 +52,9 @@ public class WebServer extends Thread {
 
 	private WebServer(Socket clientSoc) {
 		clientSocket = clientSoc;
-		start();
+		if(SERVER_STATUS.equals("RUN_SERVER")) start();
+		if(SERVER_STATUS.equals("MAINTENANCE_SERVER")) MaintenanceServer();
+		if(SERVER_STATUS.equals("STOP_SERVER")) StopServer();
 	}
 
 	public void run() {
@@ -59,8 +70,8 @@ public class WebServer extends Thread {
 				if (file.exists()) {
 					try {
 						in = new DataInputStream(new FileInputStream(file));
-						objectFile.fileFoundHeader(os, (int) file.length());
-						objectFile.sendReply(os, in, (int) file.length());
+						objectFile.fileFoundHeader(os, (int) file.length(), file);
+						objectFile.SendReply(os, in, (int) file.length());
 					} catch (Exception e) {
 						errorController.errorHeader(os, "< h2 >Can't Read " + path + "< /h2 >");
 					}
@@ -75,11 +86,48 @@ public class WebServer extends Thread {
 		}
 	}
 
-	public void MaintenanceServer() {
+	public static void InitializeServer() {
 
+		System.out.println("Enter SERVER STATUS:\t0: STOP\t1: MAINTENANCE\t2: RUN\n");
+		System.out.println("CURRENT SERVER STATUS: " + SERVER_STATUS);
+		Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+		if(myObj.nextLine().equals("0")) SERVER_STATUS = "STOP_SERVER";
+		if(myObj.nextLine().equals("1")) SERVER_STATUS = "MAINTENANCE_SERVER";
+		if(myObj.nextLine().equals("2")) SERVER_STATUS = "RUN_SERVER";
+		System.out.println("\nNEW CURRENT SERVER STATUS: " + SERVER_STATUS + "\n");  // Output user input
+
+		InitializeServer();
+	}
+
+
+	public void MaintenanceServer() {
+		try {
+			DataInputStream in;
+			PrintStream os = new PrintStream(clientSocket.getOutputStream());
+			File file = objectFile.OpenFile("..\\svv-project\\src\\html\\maintenance\\index.html");
+			try {
+				in = new DataInputStream(new FileInputStream(file));
+				objectFile.fileFoundHeader(os, (int) file.length(), file);
+				objectFile.SendReply(os, in, (int) file.length());
+			} catch (Exception e) {
+				errorController.errorHeader(os, "Can't read Maintenance html file");
+			}
+			os.flush();
+			clientSocket.close();
+		} catch (IOException e) {
+			System.err.println("Problem with Communication Server");
+			System.exit(1);
+		}
 	}
 
 	public void StopServer() {
-
+//		try {
+////			PrintStream os = new PrintStream(clientSocket.getOutputStream());
+////			errorController.errorHeader(os, "404 ERR");
+////			clientSocket.close();
+//		} catch (IOException e) {
+//			System.err.println("Problem with Communication Server");
+//			System.exit(1);
+//		}
 	}
 }
