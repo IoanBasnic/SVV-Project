@@ -18,14 +18,10 @@ public class ObjectFile {
 
     public static File OpenFile(String filename)
     {
-        try {
-            File file = new File(filename);
-            if (file.exists()) return file;
-            if (filename.charAt(0) != '/') return file;
-            return new File(filename.substring(1));
-        } catch (Exception ignored) {
-            return new File("");
-        }
+        File file = new File(filename);
+        if (file.exists()) return file;
+        if (filename.charAt(0) != '/') return file;
+        return new File(filename.substring(1));
     }
 
     public static void SendReply(PrintStream os, DataInputStream in, int flen)
