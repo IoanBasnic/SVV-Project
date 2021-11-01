@@ -23,10 +23,9 @@ public class ObjectFile {
             if (file.exists()) return file;
             if (filename.charAt(0) != '/') return file;
             return new File(filename.substring(1));
-        } catch (Exception e) {
-
+        } catch (Exception ignored) {
+            return new File("");
         }
-        return new File("thisfileshouldnotexist");
     }
 
     public static void SendReply(PrintStream os, DataInputStream in, int flen)

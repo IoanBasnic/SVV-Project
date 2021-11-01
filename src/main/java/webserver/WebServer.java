@@ -10,15 +10,15 @@ import java.io.*;
 import java.util.Scanner;
 
 public class WebServer extends Thread {
-	protected Socket clientSocket;
+    private static ServerSocket serverSocket = null;
+    private Socket clientSocket;
 	private static WebServer server = null;
 	private ErrorController errorController = new ErrorController();
 	private PathController pathController = new PathController();
 	private ObjectFile objectFile = new ObjectFile();
 
-	public static String SERVER_STATUS = "STOP_SERVER";
+	private static String SERVER_STATUS = "STOP_SERVER";
 	public static void main(String[] args) throws IOException {
-		ServerSocket serverSocket = null;
 
 		Thread startServer=new Thread() {
 			public void run() {
@@ -26,7 +26,9 @@ public class WebServer extends Thread {
 			}
 		};
 		startServer.start();
-
+		File testFile = new File("");
+		String currentPath = testFile.getAbsolutePath();
+		System.out.println("current path is: " + currentPath);
 		try {
 			serverSocket = new ServerSocket(10008);
 			try {
@@ -36,22 +38,19 @@ public class WebServer extends Thread {
 				}
 			} catch (IOException e) {
 				System.err.println("Accept failed.");
-				System.exit(1);
 			}
 		} catch (IOException e) {
 			System.err.println("Could not listen on port: 10008.");
-			System.exit(1);
 		} finally {
 			try {
 				serverSocket.close();
 			} catch (IOException e) {
 				System.err.println("Could not close port: 10008.");
-				System.exit(1);
 			}
 		}
 	}
 
-	private WebServer(Socket clientSoc) {
+	WebServer(Socket clientSoc) throws IOException {
 		clientSocket = clientSoc;
 		if(SERVER_STATUS.equals("RUN_SERVER")) start();
 		if(SERVER_STATUS.equals("MAINTENANCE_SERVER")) MaintenanceServer();
@@ -74,11 +73,11 @@ public class WebServer extends Thread {
 						objectFile.fileFoundHeader(os, (int) file.length(), file);
 						objectFile.SendReply(os, in, (int) file.length());
 					} catch (Exception e) {
-						errorController.errorHeader(os, "< h2 >Can't Read " + path + "< /h2 >");
+						errorController.errorHeader(os, "Can't Read " + path);
 					}
 					os.flush();
 				} else
-					errorController.errorHeader(os, "< h2 >Not Found " + path + "< /h2 >");
+					errorController.errorHeader(os, "Not Found " + path);
 			}
 			clientSocket.close();
 		} catch (IOException e) {
@@ -87,25 +86,31 @@ public class WebServer extends Thread {
 		}
 	}
 
-	public static void InitializeServer() {
+	private static void InitializeServer() {
 
+        try {
+            if(SERVER_STATUS.equals("EXIT")) serverSocket.close();
+        } catch (Exception e) {
+          System.out.println(e);
+        };
 		System.out.println("Enter SERVER STATUS:\t0: STOP\t1: MAINTENANCE\t2: RUN\n");
 		System.out.println("CURRENT SERVER STATUS: " + SERVER_STATUS);
 		Scanner myObj = new Scanner(System.in);  // Create a Scanner object
 		if(myObj.nextLine().equals("0")) SERVER_STATUS = "STOP_SERVER";
 		if(myObj.nextLine().equals("1")) SERVER_STATUS = "MAINTENANCE_SERVER";
 		if(myObj.nextLine().equals("2")) SERVER_STATUS = "RUN_SERVER";
+        if(myObj.nextLine().equals("9")) SERVER_STATUS = "EXIT";
 		System.out.println("\nNEW CURRENT SERVER STATUS: " + SERVER_STATUS + "\n");  // Output user input
 
 		InitializeServer();
 	}
 
 
-	public void MaintenanceServer() {
+	private void MaintenanceServer() {
 		try {
 			DataInputStream in;
 			PrintStream os = new PrintStream(clientSocket.getOutputStream());
-			File file = objectFile.OpenFile("..\\svv-project\\src\\html\\maintenance\\index.html");
+			File file = objectFile.OpenFile("..\\svv-project\\src\\main\\java\\html\\maintenance\\index.html");
 			try {
 				in = new DataInputStream(new FileInputStream(file));
 				objectFile.fileFoundHeader(os, (int) file.length(), file);
@@ -121,14 +126,7 @@ public class WebServer extends Thread {
 		}
 	}
 
-	public void StopServer() {
-//		try {
-////			PrintStream os = new PrintStream(clientSocket.getOutputStream());
-////			errorController.errorHeader(os, "404 ERR");
-////			clientSocket.close();
-//		} catch (IOException e) {
-//			System.err.println("Problem with Communication Server");
-//			System.exit(1);
-//		}
+	private void StopServer() {
+
 	}
 }
