@@ -31,7 +31,7 @@ public class ObjectFileTest {
         Socket clientSocket = serverSocket.accept();
         PrintStream os = new PrintStream(clientSocket.getOutputStream());
         System.out.println("OPEN BROWSER: http://localhost:10007/");
-        objectFile.fileFoundHeader(os, 30, new File("..\\svv-project\\src\\main\\java\\html\\index\\index.html"));
+        Mockito.verify(objectFileMock, calls(1)).fileFoundHeader(os, 30, new File("..\\svv-project\\src\\main\\java\\html\\index\\index.html"));
         objectFile.fileFoundHeader(os, 30, new File("..\\svv-project\\src\\main\\java\\html\\TestServer\\a.html"));
         objectFile.fileFoundHeader(os, 30, new File("..\\svv-project\\src\\main\\java\\html\\index\\index.js"));
     }
@@ -49,7 +49,7 @@ public class ObjectFileTest {
         Socket clientSocket = serverSocket.accept();
         PrintStream os = new PrintStream(clientSocket.getOutputStream());
         System.out.println("OPEN BROWSER: http://localhost:10009/");
-        objectFile.fileFoundHeader(os, 30, new File("..\\svv-project\\src\\main\\java\\html\\index\\index.html"));
+        Mockito.verify(objectFileMock, calls(1)).fileFoundHeader(os, 30, new File("..\\svv-project\\src\\main\\java\\html\\index\\index.html"));
         DataInputStream in = new DataInputStream(new FileInputStream(new File("..\\svv-project\\src\\main\\java\\html\\index\\index.html")));;
         objectFile.SendReply(os, in, (int) new File("..\\svv-project\\src\\main\\java\\html\\index\\index.html").length());
     }

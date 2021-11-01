@@ -11,19 +11,19 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.calls;
 import static org.mockito.Mockito.mock;
 
 public class ErrorControllerTest {
 
-    private ErrorController errorController;
-    private ErrorController errorControllerMock = mock(ErrorController.class);
+    private ErrorController errorControllerMock;
     @Before
-    public void setUp() throws Exception {
-        errorController = new ErrorController();
+    public void setUp() {
+        errorControllerMock  = mock(ErrorController.class);
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
     }
 
     @Test
@@ -32,6 +32,6 @@ public class ErrorControllerTest {
         Socket clientSocket = serverSocket.accept();
         PrintStream os = new PrintStream(clientSocket.getOutputStream());
         System.out.println("OPEN BROWSER: http://localhost:10011/");
-        Mockito.doNothing().when(errorControllerMock).errorHeader(os, "ERR TEST MSG");
+        Mockito.verify(errorControllerMock, calls(1)).errorHeader(os, "ERR TEST MSG");
     }
 }
