@@ -11,10 +11,10 @@ public class PathController {
         if(path.contains(".jpg")) return getPathJpg(path);
         if(path.contains(".css")) return getPathCss(path);
 
+        if(path.contains(" ")) path = path.replace(" ", "%20");
         if (path.equals("")) return "..\\svv-project\\src\\main\\java\\html\\index\\index.html";
         if (path.charAt(path.length()-1) == '/') return  "..\\svv-project\\src\\main\\java\\html\\index\\index.html";
-        if (path.length() > 0) return  "..\\svv-project\\src\\main\\java\\html\\TestServer\\" + path;
-        else return "";
+        return  "..\\svv-project\\src\\main\\java\\html\\TestServer\\" + path;
     }
 
     private static String getPathCss(String path)
