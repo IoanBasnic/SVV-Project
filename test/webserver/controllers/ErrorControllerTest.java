@@ -32,6 +32,6 @@ public class ErrorControllerTest {
         Socket clientSocket = serverSocket.accept();
         PrintStream os = new PrintStream(clientSocket.getOutputStream());
         System.out.println("OPEN BROWSER: http://localhost:10011/");
-        Mockito.verify(errorControllerMock, calls(1)).errorHeader(os, "ERR TEST MSG");
+        Mockito.doNothing().when(errorControllerMock).errorHeader(os, "ERR TEST MSG");
     }
 }
