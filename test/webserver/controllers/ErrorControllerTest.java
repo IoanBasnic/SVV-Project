@@ -16,10 +16,10 @@ import static org.mockito.Mockito.mock;
 
 public class ErrorControllerTest {
 
-    private ErrorController errorControllerMock;
+    private ErrorController errorController;
     @Before
     public void setUp() {
-        errorControllerMock  = mock(ErrorController.class);
+        errorController  = new ErrorController();
     }
 
     @After
@@ -32,6 +32,8 @@ public class ErrorControllerTest {
         Socket clientSocket = serverSocket.accept();
         PrintStream os = new PrintStream(clientSocket.getOutputStream());
         System.out.println("OPEN BROWSER: http://localhost:10011/");
-        Mockito.doNothing().when(errorControllerMock).errorHeader(os, "ERR TEST MSG");
+        String errMessage = "ERR TEST MSG";
+        assertEquals("Expected this output: ", "Message sent to:" + os + "With the following message" + errMessage,errorController.errorHeader(os, errMessage));
+        assertNotNull(errorController);
     }
 }
