@@ -27,13 +27,13 @@ public class ErrorControllerTest {
     }
 
     @Test
-    public void errorHeader() throws IOException {
+    public void ErrorHeader() throws IOException {
         ServerSocket serverSocket = new ServerSocket(10011);
         Socket clientSocket = serverSocket.accept();
         PrintStream os = new PrintStream(clientSocket.getOutputStream());
         System.out.println("OPEN BROWSER: http://localhost:10011/");
         String errMessage = "ERR TEST MSG";
-        assertEquals("Expected this output: ", "Message sent to:" + os + "With the following message" + errMessage,errorController.errorHeader(os, errMessage));
+        assertEquals("Expected this output: ", "Message sent to:" + os + "With the following message" + errMessage,errorController.ErrorHeader(os, errMessage));
         assertNotNull(errorController);
     }
 }

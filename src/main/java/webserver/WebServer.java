@@ -70,14 +70,14 @@ public class WebServer extends Thread {
 				if (file.exists()) {
 					try {
 						in = new DataInputStream(new FileInputStream(file));
-						objectFile.fileFoundHeader(os, (int) file.length(), file);
+						objectFile.FileFoundHeader(os, (int) file.length(), file);
 						objectFile.SendReply(os, in, (int) file.length());
 					} catch (Exception e) {
-						errorController.errorHeader(os, "Can't Read " + path);
+						errorController.ErrorHeader(os, "Can't Read " + path);
 					}
 					os.flush();
 				} else
-					errorController.errorHeader(os, "Not Found " + path);
+					errorController.ErrorHeader(os, "Not Found " + path);
 			}
 			clientSocket.close();
 		} catch (IOException e) {
@@ -113,10 +113,10 @@ public class WebServer extends Thread {
 			File file = objectFile.OpenFile("..\\svv-project\\src\\main\\java\\html\\maintenance\\index.html");
 			try {
 				in = new DataInputStream(new FileInputStream(file));
-				objectFile.fileFoundHeader(os, (int) file.length(), file);
+				objectFile.FileFoundHeader(os, (int) file.length(), file);
 				objectFile.SendReply(os, in, (int) file.length());
 			} catch (Exception e) {
-				errorController.errorHeader(os, "Can't read Maintenance html file");
+				errorController.ErrorHeader(os, "Can't read Maintenance html file");
 			}
 			os.flush();
 			clientSocket.close();
