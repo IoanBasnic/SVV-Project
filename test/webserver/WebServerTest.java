@@ -1,26 +1,33 @@
 package webserver;
 
+import javafx.scene.shape.Path;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import webserver.controllers.ErrorController;
+import webserver.controllers.ErrorControllerTest;
+import webserver.controllers.PathController;
+import webserver.utils.ObjectFile;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
 public class WebServerTest {
 
-    WebServer webServer;
-    WebServer webServerMock = mock(WebServer.class);
+    WebServer webServer = null;
+    private ErrorController errorControllerMock =mock(ErrorController.class);;
+    private PathController pathControllerMock = mock(PathController.class);;
+    private ObjectFile objectFileMock = mock(ObjectFile.class);;
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
+
     }
 
     @After
@@ -28,34 +35,59 @@ public class WebServerTest {
     }
 
     @Test
-    public void main() throws IOException {
-        String[] args = null;
-        webServer.main(args);
-        try {
-            ServerSocket serverSocket = new ServerSocket(10008);
-            webServer.main(args);
-        } catch (Exception e) {
-            System.out.println("Got the exception I wanted");
-        }
-    }
-
-    @Test
-    public void run() throws IOException {
-        ServerSocket serverSocket = new ServerSocket(10016);
-        Socket clientSocket = serverSocket.accept();
-        try {
-            webServer.run();
-            fail();
-        } catch (Exception e) {
-            System.out.println("Got the exception");
-        }
-    }
-
-    @Test
     public void WebServer() throws IOException {
-        ServerSocket serverSocket = new ServerSocket(10013);
+        ServerSocket serverSocket = new ServerSocket(10019);
         Socket clientSocket = serverSocket.accept();
         webServer = new WebServer(clientSocket);
     }
 
+    @Test
+    public void InitializeServer() throws IOException {
+        ServerSocket serverSocket = new ServerSocket(10013);
+        Socket clientSocket = serverSocket.accept();
+        webServer = new WebServer(clientSocket);
+        webServer.InitializeServer();
+        webServer.SERVER_STATUS = "STOP_SERVER";
+    }
+    @Test
+    public void TestMaintenanceServerMock() throws IOException {
+        ServerSocket serverSocket = new ServerSocket(10018);
+        Socket clientSocket = serverSocket.accept();
+        webServer = new WebServer(clientSocket);
+
+        String path = "..\\svv-project\\src\\main\\java\\html\\maintenance\\index.html";
+        File file = new File(path);
+        assertEquals("Expected a good path for the file", file, objectFileMock.OpenFile(path));
+
+        String errMessage = "ERROR MESSAGE TEST";
+        PrintStream os = new PrintStream(clientSocket.getOutputStream());
+        assertEquals("Expected an error output", "Message sent to:" + os + "With the following message" + errMessage, errorControllerMock.ErrorHeader(os, errMessage));
+
+        String expectedOutput = "Message sent to:" + os + " the file" + file + " content-type: " + "text/html" + " with file length:" + (int) file.length();
+        assertEquals("Expected output to succeed when checking the file", expectedOutput, objectFileMock.FileFoundHeader(os, (int) file.length(), file));
+
+        webServer.MaintenanceServer();
+    }
+
+    @Test
+    public void TestRunMock() throws IOException {
+        ServerSocket serverSocket = new ServerSocket(10017);
+        Socket clientSocket = serverSocket.accept();
+        webServer = new WebServer(clientSocket);
+
+        assertEquals("Expected a good path", "..\\svv-project\\src\\main\\java\\html\\index\\index.html", pathControllerMock.getPath("GET / HTTP/1.1"));
+
+        String path = "..\\svv-project\\src\\main\\java\\html\\index\\index.html";
+        File file = new File(path);
+        assertEquals("Expected a good path for the file", file, objectFileMock.OpenFile(path));
+
+        String errMessage = "ERROR MESSAGE TEST";
+        PrintStream os = new PrintStream(clientSocket.getOutputStream());
+        assertEquals("Expected an error output", "Message sent to:" + os + "With the following message" + errMessage, errorControllerMock.ErrorHeader(os, errMessage));
+
+        String expectedOutput = "Message sent to:" + os + " the file" + file + " content-type: " + "text/html" + " with file length:" + (int) file.length();
+        assertEquals("Expected output to succeed when checking the file", expectedOutput, objectFileMock.FileFoundHeader(os, (int) file.length(), file));
+
+        webServer.run();
+    }
 }
