@@ -7,13 +7,16 @@ import java.io.PrintStream;
 public class ObjectFile {
 
 
-    public static void fileFoundHeader(PrintStream os, int filelength, File file)
+    public static String FileFoundHeader(PrintStream os, int fileLength, File file)
     {
         String contentType = CheckFile(file.toString());
         os.print("HTTP:/1.0 200 OK\n");
         os.print("Content-type:" +  contentType + "\n");
-        os.print("Content-length: "+filelength+"\n");
+        os.print("Content-length: "+fileLength+"\n");
         os.print("\n");
+
+        if(contentType == null) return "Error when checking the file";
+        return "Message sent to:" + os + " the file" + file + " content-type: " + contentType + " with file length:" + fileLength;
     }
 
     public static File OpenFile(String filename)
@@ -24,16 +27,20 @@ public class ObjectFile {
         return new File(filename.substring(1));
     }
 
-    public static void SendReply(PrintStream os, DataInputStream in, int flen)
+    public static String SendReply(PrintStream os, DataInputStream in, int flen)
     {
         try
         {
-            byte buffer[] = new byte[flen];
+            byte[] buffer = new byte[flen];
             in.read(buffer);
             os.write(buffer, 0, flen);
             in.close();
         }
-        catch (Exception e)  { System.out.println(e); }
+        catch (Exception e)  {
+            System.out.println(e);
+            return "Got an error when sending a reply to " + os;
+        }
+        return "Successfully sending the reply " + os;
     }
 
     private static String CheckFile(String fileExtension) {
