@@ -17,6 +17,8 @@ Coverage: ~89%
 * Dependencies (using Maven):
     * Mockito-core - Version 4.0.0
     * JUnit - Version 4.1.3
+    * Spotbugs - Version 4.5.0
+    * Spotbugs Maven - Version 4.4.2.2
 * Plugin :
     * Lombok
     * CMD Support
