@@ -1,0 +1,29 @@
+<FindBugsFilter>
+    <Match>
+        <Bug category="SECURITY"/>
+    </Match>
+    <Match>
+        <Bug category="CORRECTNESS"/>
+    </Match>
+    <Match>
+        <Bug category="Security"/>
+    </Match>
+    <Match>
+        <Bug category="Performance"/>
+    </Match>
+    <Match>
+        <Bug category="Internationalization"/>
+    </Match>
+    <Match>
+        <Bug category="Experimental"/>
+    </Match>
+    <Match>
+        <Bug category="Malicious code vulnerability"/>
+    </Match>
+    <Match>
+        <Bug category="Multithreaded correctness"/>
+    </Match>
+    <Match>
+        <Bug category="Dodgy code"/>
+    </Match>
+</FindBugsFilter>
