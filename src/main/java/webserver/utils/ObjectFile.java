@@ -3,6 +3,9 @@ package webserver.utils;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.PrintStream;
+import java.util.Arrays;
+
+import org.apache.commons.io.FilenameUtils;
 
 public class ObjectFile {
 
@@ -21,10 +24,10 @@ public class ObjectFile {
 
     public static File OpenFile(String filename)
     {
-        File file = new File(filename);
+        File file = new File(FilenameUtils.getPath(filename), FilenameUtils.getName(filename));
         if (file.exists()) return file;
         if (filename.charAt(0) != '/') return file;
-        return new File(filename.substring(1));
+        return new File(FilenameUtils.getPath(filename), FilenameUtils.getName(filename).substring(1));
     }
 
     public static String SendReply(PrintStream os, DataInputStream in, int flen)
