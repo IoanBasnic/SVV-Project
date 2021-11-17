@@ -29,3 +29,8 @@ Static analysis - Errors
 Static analysis - After fixes
 
 # [ Dynamic analysis ]
+Printscreen - monitor
+![printscreen_1](https://user-images.githubusercontent.com/57294224/142283957-e7cd1935-a6e3-403b-bbd0-be7790857914.PNG)
+
+Printscreen - threads
+![printscreen_2](https://user-images.githubusercontent.com/57294224/142283968-6e519fda-8033-467c-b989-8895eca0dd1d.PNG)
