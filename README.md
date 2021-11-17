@@ -24,7 +24,10 @@ Coverage: ~89%
     * CMD Support
 
 # [ Static analysis ]
-Static analysis - Errors
+Static analysis - Errors (All error types)
+![printscreen_3](https://user-images.githubusercontent.com/57294224/142287598-6cff74aa-53a0-4158-a6f9-c79bb6e8bf21.PNG)
+![printscreen_4](https://user-images.githubusercontent.com/57294224/142287645-df152d0c-46b4-49ad-8183-db0f3b207413.PNG)
+
 
 Static analysis - After fixes
 
