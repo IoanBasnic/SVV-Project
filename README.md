@@ -22,3 +22,10 @@ Coverage: ~89%
 * Plugin :
     * Lombok
     * CMD Support
+
+# [ Static analysis ]
+Static analysis - Errors
+
+Static analysis - After fixes
+
+# [ Dynamic analysis ]
