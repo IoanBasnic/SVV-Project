@@ -29,7 +29,8 @@ Static analysis - Errors (All error types)
 ![printscreen_4](https://user-images.githubusercontent.com/57294224/142287645-df152d0c-46b4-49ad-8183-db0f3b207413.PNG)
 
 
-Static analysis - After fixes
+Static analysis - After fixes - WIP
+![printscreen_5](https://user-images.githubusercontent.com/57294224/142292966-b3725fed-cf64-48a6-909e-917a0c58ecc6.PNG)
 
 # [ Dynamic analysis ]
 Printscreen - monitor
