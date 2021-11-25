@@ -29,8 +29,10 @@ Static analysis - Errors (All error types)
 ![printscreen_4](https://user-images.githubusercontent.com/57294224/142287645-df152d0c-46b4-49ad-8183-db0f3b207413.PNG)
 
 
-Static analysis - After fixes - WIP
+Static analysis - After fixes
 ![printscreen_5](https://user-images.githubusercontent.com/57294224/142292966-b3725fed-cf64-48a6-909e-917a0c58ecc6.PNG)
+![SVV2](https://user-images.githubusercontent.com/57294224/143489745-da7ed579-ca01-4d70-b658-5307e2df1cc7.JPG)
+![SVV3](https://user-images.githubusercontent.com/57294224/143489750-ac29b401-d01d-4f5d-8b1a-0bfc200aa518.JPG)
 
 # [ Dynamic analysis ]
 
