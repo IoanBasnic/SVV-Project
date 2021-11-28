@@ -5,7 +5,7 @@ import webserver.WebServer;
 import java.io.IOException;
 import java.net.ServerSocket;
 
-import static webserver.WebServer.InitializeServer;
+import static webserver.WebServer.initializeServer;
 
 public class Main {
 
@@ -16,7 +16,7 @@ public class Main {
         WebServer webServer = null;
         Thread startServer=new Thread() {
             public void run() {
-                InitializeServer();
+                initializeServer();
             }
         };
         startServer.start();
