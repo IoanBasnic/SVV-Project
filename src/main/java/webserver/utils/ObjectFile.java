@@ -35,7 +35,8 @@ public class ObjectFile {
         try
         {
             byte[] buffer = new byte[flen];
-            in.read(buffer);
+            int result = in.read(buffer);
+            System.out.println("Send the result with buffer: " + result);
             os.write(buffer, 0, flen);
             in.close();
         }

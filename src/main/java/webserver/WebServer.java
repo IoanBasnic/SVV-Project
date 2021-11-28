@@ -1,5 +1,6 @@
 package webserver;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import webserver.controllers.ErrorController;
 import webserver.controllers.PathController;
 import webserver.utils.ObjectFile;
@@ -15,13 +16,15 @@ public class WebServer extends Thread {
 	private PathController pathController = new PathController();
 	private ObjectFile objectFile = new ObjectFile();
 
+	@SuppressFBWarnings("MS_PKGPROTECT") // this static will be modified
 	public static String SERVER_STATUS = "STOP_SERVER";
 
+	@SuppressFBWarnings("DM_EXIT") // The System.exit is fine, we should close the VM
 	public WebServer(Socket clientSoc) {
 		clientSocket = clientSoc;
 		if(SERVER_STATUS.equals("EXIT")) System.exit(1);
 		if(SERVER_STATUS.equals("RUN_SERVER")) start();
-		if(SERVER_STATUS.equals("MAINTENANCE_SERVER")) MaintenanceServer();
+		if(SERVER_STATUS.equals("MAINTENANCE_SERVER")) maintenanceServer();
 		if(SERVER_STATUS.equals("STOP_SERVER")) StopServer();
 	}
 
@@ -30,8 +33,8 @@ public class WebServer extends Thread {
 
 		try {
 			DataInputStream in;
-			PrintStream os = new PrintStream(clientSocket.getOutputStream());
-			BufferedReader is = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+			PrintStream os = new PrintStream(clientSocket.getOutputStream(), true, "UTF-8");
+			BufferedReader is = new BufferedReader(new InputStreamReader(clientSocket.getInputStream(), "UTF-8"));
 			String path;
 			if ((path = pathController.getPath(is.readLine())) != null) {
 				File file = objectFile.OpenFile(path);
@@ -41,51 +44,49 @@ public class WebServer extends Thread {
 						objectFile.FileFoundHeader(os, (int) file.length(), file);
 						objectFile.SendReply(os, in, (int) file.length());
 					} catch (Exception e) {
-						errorController.ErrorHeader(os, "Can't Read " + path);
+						errorController.errorHeader(os, "Can't Read " + path);
 					}
 					os.flush();
 				} else
-					errorController.ErrorHeader(os, "Not Found " + path);
+					errorController.errorHeader(os, "Not Found " + path);
 			}
 			clientSocket.close();
 		} catch (IOException e) {
 			System.err.println("Problem with Communication Server");
-			System.exit(1);
 		}
 	}
 
-	public static void InitializeServer() {
+	public static void initializeServer() {
 
 		System.out.println("Enter SERVER STATUS:\t0: STOP\t1: MAINTENANCE\t2: RUN\t9: EXIT\n");
 		System.out.println("CURRENT SERVER STATUS: " + SERVER_STATUS);
-		Scanner myObj = new Scanner(System.in);
+		Scanner myObj = new Scanner(System.in, "UTF-8");
 		if(myObj.nextLine().equals("0")) SERVER_STATUS = "STOP_SERVER";
 		if(myObj.nextLine().equals("1")) SERVER_STATUS = "MAINTENANCE_SERVER";
 		if(myObj.nextLine().equals("2")) SERVER_STATUS = "RUN_SERVER";
         if(myObj.nextLine().equals("9")) SERVER_STATUS = "EXIT";
 		System.out.println("\nNEW CURRENT SERVER STATUS: " + SERVER_STATUS + "\n");
 
-		if(!SERVER_STATUS.equals("EXIT")) InitializeServer();
+		if(!SERVER_STATUS.equals("EXIT")) initializeServer();
 	}
 
 
-	public void MaintenanceServer() {
+	public void maintenanceServer() {
 		try {
 			DataInputStream in;
-			PrintStream os = new PrintStream(clientSocket.getOutputStream());
+			PrintStream os = new PrintStream(clientSocket.getOutputStream(), true, "UTF-8");
 			File file = objectFile.OpenFile("..\\svv-project\\src\\main\\java\\html\\maintenance\\index.html");
 			try {
 				in = new DataInputStream(new FileInputStream(file));
 				objectFile.FileFoundHeader(os, (int) file.length(), file);
 				objectFile.SendReply(os, in, (int) file.length());
 			} catch (Exception e) {
-				errorController.ErrorHeader(os, "Can't read Maintenance html file");
+				errorController.errorHeader(os, "Can't read Maintenance html file");
 			}
 			os.flush();
 			clientSocket.close();
 		} catch (IOException e) {
 			System.err.println("Problem with Communication Server");
-			System.exit(1);
 		}
 	}
 

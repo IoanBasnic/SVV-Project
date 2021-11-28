@@ -1,12 +1,9 @@
 package webserver;
 
-import javafx.scene.shape.Path;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 import webserver.controllers.ErrorController;
-import webserver.controllers.ErrorControllerTest;
 import webserver.controllers.PathController;
 import webserver.utils.ObjectFile;
 
@@ -15,7 +12,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.verify;
 
@@ -46,7 +42,7 @@ public class WebServerTest {
         ServerSocket serverSocket = new ServerSocket(10013);
         Socket clientSocket = serverSocket.accept();
         webServer = new WebServer(clientSocket);
-        webServer.InitializeServer();
+        webServer.initializeServer();
         webServer.SERVER_STATUS = "STOP_SERVER";
     }
     @Test
@@ -61,12 +57,12 @@ public class WebServerTest {
 
         String errMessage = "ERROR MESSAGE TEST";
         PrintStream os = new PrintStream(clientSocket.getOutputStream());
-        assertEquals("Expected an error output", "Message sent to:" + os + "With the following message" + errMessage, errorControllerMock.ErrorHeader(os, errMessage));
+        assertEquals("Expected an error output", "Message sent to:" + os + "With the following message" + errMessage, errorControllerMock.errorHeader(os, errMessage));
 
         String expectedOutput = "Message sent to:" + os + " the file" + file + " content-type: " + "text/html" + " with file length:" + (int) file.length();
         assertEquals("Expected output to succeed when checking the file", expectedOutput, objectFileMock.FileFoundHeader(os, (int) file.length(), file));
 
-        webServer.MaintenanceServer();
+        webServer.maintenanceServer();
     }
 
     @Test
@@ -83,7 +79,7 @@ public class WebServerTest {
 
         String errMessage = "ERROR MESSAGE TEST";
         PrintStream os = new PrintStream(clientSocket.getOutputStream());
-        assertEquals("Expected an error output", "Message sent to:" + os + "With the following message" + errMessage, errorControllerMock.ErrorHeader(os, errMessage));
+        assertEquals("Expected an error output", "Message sent to:" + os + "With the following message" + errMessage, errorControllerMock.errorHeader(os, errMessage));
 
         String expectedOutput = "Message sent to:" + os + " the file" + file + " content-type: " + "text/html" + " with file length:" + (int) file.length();
         assertEquals("Expected output to succeed when checking the file", expectedOutput, objectFileMock.FileFoundHeader(os, (int) file.length(), file));
