@@ -20,6 +20,7 @@ Coverage: ~89%
     * Spotbugs - Version 4.5.0
     * Spotbugs Maven - Version 4.4.2.2
 * Plugin :
+    * Spotbugs - Version 1.2.5 
     * Lombok
     * CMD Support
 
@@ -28,6 +29,20 @@ Static analysis - Errors (All error types)
 ![printscreen_3](https://user-images.githubusercontent.com/57294224/142287598-6cff74aa-53a0-4158-a6f9-c79bb6e8bf21.PNG)
 ![printscreen_4](https://user-images.githubusercontent.com/57294224/142287645-df152d0c-46b4-49ad-8183-db0f3b207413.PNG)
 
+Using SpotBugs Intellij Plugin - All errors
+![svvspot1](https://user-images.githubusercontent.com/57294224/143785539-4fd26607-3eb8-4df2-bfc3-01a7dea31e2f.JPG)
+![svvspot2](https://user-images.githubusercontent.com/57294224/143785541-ad05ff64-ead2-4536-bafd-c8f07775a6f2.JPG)
+![svvspot3](https://user-images.githubusercontent.com/57294224/143785544-beeb381c-61a8-4bd8-94bf-206d940c3c74.JPG)
+![svvspot4](https://user-images.githubusercontent.com/57294224/143785547-34c5d713-58ea-401a-a6cd-a6754b56836b.JPG)
+![svvspot5](https://user-images.githubusercontent.com/57294224/143785548-22b9bdff-b43b-4933-85fe-8f825a00aedc.JPG)
+![svvspot6](https://user-images.githubusercontent.com/57294224/143785549-9c53e80d-95a9-4854-9905-673934d484c8.JPG)
+![svvspot7](https://user-images.githubusercontent.com/57294224/143785551-c2f339ab-50a0-48e4-97cf-9b2bb0420c5b.JPG)
+![svvspot8](https://user-images.githubusercontent.com/57294224/143785553-25da6715-4368-45e1-b04e-6be46b3d450a.JPG)
+![svvspot9](https://user-images.githubusercontent.com/57294224/143785556-25168128-769e-4961-a4f7-fa932aa72777.JPG)
+![svvspot10](https://user-images.githubusercontent.com/57294224/143785560-2d54c544-7d46-47fb-a5b5-528fc036a6da.JPG)
+![svvspot11](https://user-images.githubusercontent.com/57294224/143785564-3f3b9f1b-4eea-47e0-8049-48b1db836352.JPG)
+![svvspot12](https://user-images.githubusercontent.com/57294224/143785566-f428f2cd-25c7-4fe6-893b-5ffed8d6912e.JPG)
+![svvspot13](https://user-images.githubusercontent.com/57294224/143785567-911d0559-068c-4d88-b72b-f6da20323343.JPG)
 
 Static analysis - After fixes
 ![printscreen_5](https://user-images.githubusercontent.com/57294224/142292966-b3725fed-cf64-48a6-909e-917a0c58ecc6.PNG)
