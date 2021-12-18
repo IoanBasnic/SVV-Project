@@ -106,7 +106,7 @@ public class WebServerController {
 
         if(file != null) {
             setMaintenanceRootDirectoryPath.setText(file.getAbsolutePath());
-            WebServerGUI.SERVER_MAINTENANCE = file.getAbsolutePath();
+            WebServerGUI.SERVER_MAINTENANCE = file.getAbsolutePath() + "\\index.html";
         }
     }
 
@@ -115,8 +115,8 @@ public class WebServerController {
         File file = directoryChooser.showDialog(null);
 
         if(file != null) {
-            setWebRootDirectoryPath.setText(file.getAbsolutePath());
-            WebServerGUI.SERVER_ROOT_WEB = file.getAbsolutePath();
+            setWebRootDirectoryPath.setText(file.getPath());
+            WebServerGUI.SERVER_ROOT_WEB = file.getAbsolutePath() + "\\";
         }
     }
 
