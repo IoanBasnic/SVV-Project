@@ -16,11 +16,15 @@ public class WebServer extends Thread {
 	private PathController pathController = new PathController();
 	private ObjectFile objectFile = new ObjectFile();
 
+	private String ROOT_PATH = "";
+	private String MAINTENANCE_PATH = "";
 	@SuppressFBWarnings("MS_PKGPROTECT") // this static will be modified
 	public static String SERVER_STATUS = "STOP_SERVER";
 
 	@SuppressFBWarnings("DM_EXIT") // The System.exit is fine, we should close the VM
-	public WebServer(Socket clientSoc) {
+	public WebServer(Socket clientSoc, String ROOT_PATH, String MAINTENANCE_PATH) {
+		this.ROOT_PATH = ROOT_PATH;
+		this.MAINTENANCE_PATH = MAINTENANCE_PATH;
 		clientSocket = clientSoc;
 		if(SERVER_STATUS.equals("EXIT")) System.exit(1);
 		if(SERVER_STATUS.equals("RUN_SERVER")) start();
@@ -36,7 +40,7 @@ public class WebServer extends Thread {
 			PrintStream os = new PrintStream(clientSocket.getOutputStream(), true, "UTF-8");
 			BufferedReader is = new BufferedReader(new InputStreamReader(clientSocket.getInputStream(), "UTF-8"));
 			String path;
-			if ((path = pathController.getPath(is.readLine())) != null) {
+			if ((path = pathController.getPath(is.readLine(), this.ROOT_PATH)) != null) {
 				File file = objectFile.OpenFile(path);
 				if (file.exists()) {
 					try {
@@ -75,7 +79,7 @@ public class WebServer extends Thread {
 		try {
 			DataInputStream in;
 			PrintStream os = new PrintStream(clientSocket.getOutputStream(), true, "UTF-8");
-			File file = objectFile.OpenFile("..\\svv-project\\src\\main\\java\\html\\maintenance\\index.html");
+			File file = objectFile.OpenFile(this.MAINTENANCE_PATH);
 			try {
 				in = new DataInputStream(new FileInputStream(file));
 				objectFile.FileFoundHeader(os, (int) file.length(), file);

@@ -53,7 +53,7 @@ public class WebServerGUI extends Application {
                         try {
                             while (!webServerGUI.SERVER_STATUS.equals("STOP_SERVER")) {
                                 System.out.println("Waiting for Connection");
-                                new WebServer(serverSocketGUI.accept());
+                                new WebServer(serverSocketGUI.accept(), SERVER_ROOT_WEB, SERVER_MAINTENANCE);
                             }
                             System.out.println(SERVER_LISTENING_PORT);
                         } catch (IOException e) {
