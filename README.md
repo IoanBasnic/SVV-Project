@@ -19,6 +19,7 @@ Coverage: ~89%
     * JUnit - Version 4.1.3
     * Spotbugs - Version 4.5.0
     * Spotbugs Maven - Version 4.4.2.2
+    * JavaFX - Version 17.0.0.1 (latest)
 * Plugin :
     * Spotbugs - Version 1.2.5 
     * Lombok
