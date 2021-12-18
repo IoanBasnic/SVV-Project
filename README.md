@@ -9,7 +9,7 @@ GUI WebServer - WIP
 # [ TDD ]
 Coverage: ~89%
 
-<img src="https://i.ibb.co/pwgt9Qp/Capture.png" alt="Capture" border="0">
+<img src="https://i.ibb.co/pwgt9Qp/Capture.png" alt="Capture">
 
 # Project tools & dependencies
 
