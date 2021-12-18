@@ -17,6 +17,8 @@ import static org.mockito.Mockito.verify;
 
 public class WebServerTest {
 
+    public static String SERVER_ROOT_WEB = "..\\svv-project\\src\\main\\java\\html\\";
+    public static String SERVER_MAINTENANCE = "..\\svv-project\\src\\main\\java\\html\\maintenance\\index.html";
     WebServer webServer = null;
     private ErrorController errorControllerMock =mock(ErrorController.class);;
     private PathController pathControllerMock = mock(PathController.class);;
@@ -34,14 +36,14 @@ public class WebServerTest {
     public void WebServer() throws IOException {
         ServerSocket serverSocket = new ServerSocket(10019);
         Socket clientSocket = serverSocket.accept();
-        webServer = new WebServer(clientSocket);
+        webServer = new WebServer(clientSocket, SERVER_ROOT_WEB, SERVER_MAINTENANCE);
     }
 
     @Test
     public void InitializeServer() throws IOException {
         ServerSocket serverSocket = new ServerSocket(10013);
         Socket clientSocket = serverSocket.accept();
-        webServer = new WebServer(clientSocket);
+        webServer = new WebServer(clientSocket, SERVER_ROOT_WEB, SERVER_MAINTENANCE);
         webServer.initializeServer();
         webServer.SERVER_STATUS = "STOP_SERVER";
     }
@@ -49,7 +51,7 @@ public class WebServerTest {
     public void TestMaintenanceServerMock() throws IOException {
         ServerSocket serverSocket = new ServerSocket(10018);
         Socket clientSocket = serverSocket.accept();
-        webServer = new WebServer(clientSocket);
+        webServer = new WebServer(clientSocket, SERVER_ROOT_WEB, SERVER_MAINTENANCE);
 
         String path = "..\\svv-project\\src\\main\\java\\html\\maintenance\\index.html";
         File file = new File(path);
@@ -69,9 +71,9 @@ public class WebServerTest {
     public void TestRunMock() throws IOException {
         ServerSocket serverSocket = new ServerSocket(10017);
         Socket clientSocket = serverSocket.accept();
-        webServer = new WebServer(clientSocket);
+        webServer = new WebServer(clientSocket, SERVER_ROOT_WEB, SERVER_MAINTENANCE);
 
-        assertEquals("Expected a good path", "..\\svv-project\\src\\main\\java\\html\\index\\index.html", pathControllerMock.getPath("GET / HTTP/1.1"));
+        assertEquals("Expected a good path", "..\\svv-project\\src\\main\\java\\html\\index\\index.html", pathControllerMock.getPath("GET / HTTP/1.1", SERVER_ROOT_WEB));
 
         String path = "..\\svv-project\\src\\main\\java\\html\\index\\index.html";
         File file = new File(path);
